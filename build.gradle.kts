@@ -47,7 +47,8 @@ dependencies {
     api("net.bladehunt:kotstom-adventure-serialization:0.3.0-alpha.1")
     api("io.github.cdimascio:dotenv-kotlin:6.4.1")
 
-    api("io.klogging:slf4j-klogging:0.5.14")
+    // Optional dependencies
+    compileOnly("dev.hollowcube:polar:1.10.0")
 
     testImplementation("net.minestom", "minestom-snapshots", property("minestom.version") as String)
     testImplementation("io.kotest:kotest-assertions-core:5.9.0")
