@@ -4,6 +4,7 @@ import java.net.InetSocketAddress
 import java.net.SocketAddress
 import kotlinx.coroutines.runBlocking
 import net.bladehunt.blade.module.BladeModule
+import net.bladehunt.kotstom.GlobalEventHandler
 import net.bladehunt.kotstom.InstanceManager
 import net.bladehunt.kotstom.dsl.listen
 import net.minestom.server.MinecraftServer
@@ -23,14 +24,11 @@ object Blade {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
-    fun <T> install(module: BladeModule<T>) {
-        module.configure {}
-        module.install()
-    }
-
-    fun <T> install(module: BladeModule<T>, configure: T.() -> Unit) {
+    fun <T> install(module: BladeModule<T>, configure: T.() -> Unit = {}) {
         module.configure(configure)
         module.install()
+
+        loadedModules.add(module)
     }
 
     fun onShutdown(runnable: Runnable) {
@@ -57,7 +55,9 @@ object Blade {
 
 inline fun blade(block: Blade.() -> Unit) {
     val minecraftServer = MinecraftServer.init()
+    MinecraftServer.setBrandName("Minestom (Blade)")
     Blade.block()
 
+    GlobalEventHandler.addChild(Blade.eventNode)
     minecraftServer.start(Blade.address)
 }
