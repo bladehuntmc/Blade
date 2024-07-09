@@ -14,6 +14,7 @@ dependencies {
 
     implementation(project(":"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0-RC")
+    implementation("net.bladehunt:minigame-lib:0.1.0-alpha.4")
 
     implementation("ch.qos.logback:logback-core:1.5.6")
     implementation("ch.qos.logback:logback-classic:1.5.6")
