@@ -49,6 +49,7 @@ dependencies {
 
     // Optional dependencies
     compileOnly("dev.hollowcube:polar:1.10.0")
+    compileOnly("com.github.TogAr2:MinestomPvp:f3fcc94e6b")
 
     testImplementation("net.minestom", "minestom-snapshots", property("minestom.version") as String)
     testImplementation("io.kotest:kotest-assertions-core:5.9.0")
