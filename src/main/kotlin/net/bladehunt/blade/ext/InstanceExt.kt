@@ -1,7 +1,8 @@
 package net.bladehunt.blade.ext
 
 import net.bladehunt.blade.Blade
-import net.bladehunt.blade.optional.polar.PolarBuilder
+import net.bladehunt.blade.instance.AnvilBuilder
+import net.bladehunt.blade.instance.PolarBuilder
 import net.bladehunt.kotstom.InstanceManager
 import net.minestom.server.instance.Instance
 import net.minestom.server.instance.InstanceContainer
@@ -15,6 +16,10 @@ fun Instance.withLighting() {
     chunkSupplier = ChunkSupplier(::LightingChunk)
 }
 
+inline fun InstanceContainer.anvil(block: AnvilBuilder.() -> Unit) {
+    chunkLoader = AnvilBuilder(this).apply(block).build()
+}
+
 inline fun InstanceContainer.polar(block: PolarBuilder.() -> Unit) {
     try {
         Class.forName("net.hollowcube.polar.PolarLoader")
@@ -23,7 +28,7 @@ inline fun InstanceContainer.polar(block: PolarBuilder.() -> Unit) {
             "Can't load a Polar map without Polar (Fix: Add net.hollowcube:polar to your dependencies)")
         return
     }
-    chunkLoader = PolarBuilder().apply(block).build()
+    chunkLoader = PolarBuilder(this).apply(block).build()
 }
 
 fun InstanceContainer.newSharedInstance(): SharedInstance =

@@ -1,17 +1,18 @@
-package net.bladehunt.blade.optional.polar
+package net.bladehunt.blade.instance
 
-import net.hollowcube.polar.PolarLoader
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import java.io.InputStream
 import java.nio.file.Path
+import net.hollowcube.polar.PolarLoader
+import net.minestom.server.instance.InstanceContainer
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
-class PolarBuilder {
+class PolarBuilder(instance: InstanceContainer) : ChunkLoaderBuilder<PolarLoader>(instance) {
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
-    var loader: PolarLoader? = null
+    private var loader: PolarLoader? = null
 
-    fun fromPath(path: Path) {
+    override fun fromPath(path: Path) {
         loader = PolarLoader(path)
     }
 
@@ -27,8 +28,8 @@ class PolarBuilder {
             return
         }
 
-        loader = PolarLoader(resource)
+        fromStream(resource)
     }
 
-    fun build(): PolarLoader = requireNotNull(loader)
+    override fun build(): PolarLoader = requireNotNull(loader)
 }
