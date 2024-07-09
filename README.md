@@ -2,8 +2,8 @@
 
 A batteries-included and modular Minestom Network framework.
 
-[!CAUTION]
-This is extremely experimental and will probably not receive much future support. Use at your own risk.
+> [!CAUTION]
+> This is extremely experimental and will probably not receive much future support. Use at your own risk.
 
 ---
 
