@@ -1,13 +1,16 @@
 package net.bladehunt.blade.module
 
 import io.github.togar2.pvp.PvpExtension
+import net.bladehunt.blade.Blade
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 object MinestomPvpModule : BladeModule<Unit> {
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
-    override fun install() {
+    override fun install(blade: Blade) {}
+
+    override fun onInit(blade: Blade) {
         try {
             Class.forName("io.github.togar2.pvp.PvpExtension")
         } catch (_: ClassNotFoundException) {
@@ -19,5 +22,5 @@ object MinestomPvpModule : BladeModule<Unit> {
         PvpExtension.init()
     }
 
-    override fun configure(block: Unit.() -> Unit) {}
+    override fun configure(blade: Blade, block: Unit.() -> Unit) {}
 }

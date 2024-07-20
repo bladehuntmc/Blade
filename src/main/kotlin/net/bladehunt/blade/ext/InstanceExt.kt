@@ -24,7 +24,7 @@ inline fun InstanceContainer.polar(block: PolarBuilder.() -> Unit) {
     try {
         Class.forName("net.hollowcube.polar.PolarLoader")
     } catch (e: ClassNotFoundException) {
-        Blade.logger.error(
+        Blade.LOGGER.error(
             "Can't load a Polar map without Polar (Fix: Add net.hollowcube:polar to your dependencies)")
         return
     }

@@ -29,12 +29,12 @@ object DotenvModule : BladeModule<DotenvModule.ModuleConfig> {
 
     lateinit var dotenv: Dotenv
 
-    override fun install() {
+    override fun install(blade: Blade) {
         if (config.loadAddress)
-            Blade.address = InetSocketAddress(dotenv["HOSTNAME"], dotenv["PORT"].toInt())
+            blade.address = InetSocketAddress(dotenv["HOSTNAME"], dotenv["PORT"].toInt())
     }
 
-    override fun configure(block: ModuleConfig.() -> Unit) {
+    override fun configure(blade: Blade, block: ModuleConfig.() -> Unit) {
         val config = config.apply(block)
 
         val dotenv = Dotenv.configure()

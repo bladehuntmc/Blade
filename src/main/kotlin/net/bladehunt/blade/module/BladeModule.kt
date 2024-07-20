@@ -1,7 +1,11 @@
 package net.bladehunt.blade.module
 
-interface BladeModule<T> {
-    fun install()
+import net.bladehunt.blade.Blade
 
-    fun configure(block: T.() -> Unit)
+interface BladeModule<T> {
+    fun install(blade: Blade)
+
+    fun configure(blade: Blade, block: T.() -> Unit)
+
+    fun onInit(blade: Blade) {}
 }

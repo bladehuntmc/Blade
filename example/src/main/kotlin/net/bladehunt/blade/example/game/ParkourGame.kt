@@ -4,7 +4,7 @@ import kotlin.math.floor
 import kotlin.math.roundToInt
 import kotlinx.coroutines.*
 import kotlinx.coroutines.future.await
-import net.bladehunt.blade.Blade.buildInstance
+import net.bladehunt.blade.dsl.buildInstance
 import net.bladehunt.blade.example.LOBBY
 import net.bladehunt.blade.ext.withLighting
 import net.bladehunt.kotstom.InstanceManager

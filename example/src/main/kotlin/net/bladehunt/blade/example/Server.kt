@@ -1,7 +1,7 @@
 package net.bladehunt.blade.example
 
-import net.bladehunt.blade.Blade.buildInstance
 import net.bladehunt.blade.blade
+import net.bladehunt.blade.dsl.buildInstance
 import net.bladehunt.blade.example.command.JOIN_COMMAND
 import net.bladehunt.blade.example.command.LOBBY_COMMAND
 import net.bladehunt.blade.ext.modify
@@ -42,6 +42,8 @@ val LOBBY by lazy {
 
 fun main() = blade {
     install(DotenvModule)
+
+    init()
 
     CommandManager.register(JOIN_COMMAND, LOBBY_COMMAND)
 
