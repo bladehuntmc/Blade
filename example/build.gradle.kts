@@ -10,15 +10,13 @@ repositories {
 }
 
 dependencies {
-    implementation("net.minestom:minestom-snapshots:73b308673b")
+    implementation(libs.minestom)
 
     implementation(project(":"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0-RC")
-    implementation("net.bladehunt:minigame-lib:0.1.0-beta.0")
+    implementation(libs.kotlinx.coroutines)
+    implementation(libs.minigamelib)
 
-    implementation("ch.qos.logback:logback-core:1.5.6")
-    implementation("ch.qos.logback:logback-classic:1.5.6")
-    implementation("org.fusesource.jansi:jansi:2.4.1")
+    implementation(libs.bundles.logback)
 
     testImplementation(kotlin("test"))
 }

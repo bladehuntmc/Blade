@@ -10,7 +10,6 @@ import net.bladehunt.blade.example.Lobby
 import net.bladehunt.kotstom.InstanceManager
 import net.bladehunt.kotstom.dsl.listen
 import net.bladehunt.kotstom.dsl.scheduleTask
-import net.bladehunt.kotstom.extension.adventure.asComponent
 import net.bladehunt.kotstom.extension.adventure.plus
 import net.bladehunt.kotstom.extension.adventure.text
 import net.bladehunt.kotstom.extension.roundToBlock
@@ -72,7 +71,7 @@ class ParkourGame : InstancedGame(UUID.randomUUID(), buildInstance { enableLight
                 }
 
             if (result != true) {
-                sendMessage("Nobody won the game...".asComponent())
+                sendMessage(text("Nobody won the game..."))
             }
 
             task.cancel()

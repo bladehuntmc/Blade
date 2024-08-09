@@ -40,18 +40,16 @@ subprojects {
 }
 
 dependencies {
-    compileOnly("net.minestom", "minestom-snapshots", property("minestom.version") as String)
-    compileOnly("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0-RC")
+    compileOnly(libs.minestom)
+    compileOnly(libs.kotlinx.coroutines)
 
-    api("net.bladehunt:kotstom:0.4.0-alpha.0")
-    api("net.bladehunt:kotstom-adventure-serialization:0.4.0-alpha.0")
-    api("io.github.cdimascio:dotenv-kotlin:6.4.1")
+    api(libs.bundles.kotstom)
+    api(libs.dotenv)
 
     // Optional dependencies
-    compileOnly("dev.hollowcube:polar:1.10.0")
-    compileOnly("com.github.TogAr2:MinestomPvP:7b5cadcad4")
+    compileOnly(libs.polar)
 
-    testImplementation("net.minestom", "minestom-snapshots", property("minestom.version") as String)
+    testImplementation(libs.minestom)
     testImplementation("io.kotest:kotest-assertions-core:5.9.0")
     testImplementation("io.kotest:kotest-runner-junit5:5.9.0")
 }
