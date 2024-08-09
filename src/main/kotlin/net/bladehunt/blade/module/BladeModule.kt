@@ -1,11 +1,11 @@
 package net.bladehunt.blade.module
 
-import net.bladehunt.blade.Blade
+import net.bladehunt.blade.scope.BladeScope
 
-interface BladeModule<T> {
-    fun install(blade: Blade)
+interface BladeModule {
+    suspend fun onCreate()
 
-    fun configure(blade: Blade, block: T.() -> Unit)
+    suspend fun onInit(scope: BladeScope)
 
-    fun onInit(blade: Blade) {}
+    fun onShutdown()
 }

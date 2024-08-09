@@ -2,47 +2,20 @@ package net.bladehunt.blade.module
 
 import io.github.cdimascio.dotenv.Dotenv
 import java.net.InetSocketAddress
-import net.bladehunt.blade.Blade
+import net.bladehunt.blade.scope.BladeScope
 
-object DotenvModule : BladeModule<DotenvModule.ModuleConfig> {
-    class ModuleConfig {
-        // Dotenv config
+class DotenvModule(
+    val dotenv: Dotenv,
+    /** Loads address to host the server on from .env */
+    var loadAddress: Boolean = false
+) : BladeModule {
+    override suspend fun onCreate() {}
 
-        var directory: String = "./"
-        /** Sets the name of the .env. The default is .env */
-        var filename: String = ".env"
-        /** Do not throw an exception when .env is malformed */
-        var ignoreIfMalformed = false
-        /** Do not throw an exception when .env is missing */
-        var ignoreIfMissing = true
-
-        /**
-         * Set env vars into System properties. Enables fetch them via e.g. System.getProperty(...)
-         */
-        var systemProperties = true
-
-        /** Loads address to host the server on from .env */
-        var loadAddress = false
+    override suspend fun onInit(scope: BladeScope) {
+        if (loadAddress) {
+            scope.host = InetSocketAddress(dotenv["HOSTNAME"], dotenv["PORT"].toInt())
+        }
     }
 
-    private val config = ModuleConfig()
-
-    lateinit var dotenv: Dotenv
-
-    override fun install(blade: Blade) {
-        if (config.loadAddress)
-            blade.address = InetSocketAddress(dotenv["HOSTNAME"], dotenv["PORT"].toInt())
-    }
-
-    override fun configure(blade: Blade, block: ModuleConfig.() -> Unit) {
-        val config = config.apply(block)
-
-        val dotenv = Dotenv.configure()
-        dotenv.directory(config.directory)
-        dotenv.filename(config.filename)
-        if (config.ignoreIfMalformed) dotenv.ignoreIfMalformed()
-        if (config.ignoreIfMissing) dotenv.ignoreIfMissing()
-        if (config.systemProperties) dotenv.systemProperties()
-        this.dotenv = dotenv.load()
-    }
+    override fun onShutdown() {}
 }

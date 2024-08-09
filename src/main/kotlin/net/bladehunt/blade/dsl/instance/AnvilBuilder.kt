@@ -1,4 +1,4 @@
-package net.bladehunt.blade.instance
+package net.bladehunt.blade.dsl.instance
 
 import java.nio.file.Path
 import net.minestom.server.instance.InstanceContainer

@@ -1,37 +1,30 @@
 package net.bladehunt.blade.ext
 
-import net.bladehunt.blade.Blade
-import net.bladehunt.blade.instance.AnvilBuilder
-import net.bladehunt.blade.instance.PolarBuilder
 import net.bladehunt.kotstom.InstanceManager
-import net.minestom.server.instance.Instance
-import net.minestom.server.instance.InstanceContainer
-import net.minestom.server.instance.LightingChunk
-import net.minestom.server.instance.SharedInstance
-import net.minestom.server.instance.generator.GenerationUnit
-import net.minestom.server.instance.generator.UnitModifier
-import net.minestom.server.utils.chunk.ChunkSupplier
+import net.minestom.server.ServerFlag
+import net.minestom.server.instance.*
+import net.minestom.server.utils.chunk.ChunkUtils
+import java.util.concurrent.CompletableFuture
 
-fun Instance.withLighting() {
-    chunkSupplier = ChunkSupplier(::LightingChunk)
+fun Instance.loadChunks(
+    chunkX: Int,
+    chunkZ: Int,
+    range: Int = ServerFlag.CHUNK_VIEW_DISTANCE
+): CompletableFuture<Void> {
+    val futures = arrayListOf<CompletableFuture<Chunk>>()
+    ChunkUtils.forChunksInRange(chunkX, chunkZ, range) { x, y -> futures.add(loadChunk(x, y)) }
+
+    return CompletableFuture.allOf(*futures.toTypedArray())
 }
 
-inline fun InstanceContainer.anvil(block: AnvilBuilder.() -> Unit) {
-    chunkLoader = AnvilBuilder(this).apply(block).build()
-}
-
-inline fun InstanceContainer.polar(block: PolarBuilder.() -> Unit) {
-    try {
-        Class.forName("net.hollowcube.polar.PolarLoader")
-    } catch (e: ClassNotFoundException) {
-        Blade.LOGGER.error(
-            "Can't load a Polar map without Polar (Fix: Add net.hollowcube:polar to your dependencies)")
-        return
+fun Instance.relightChunks(chunkX: Int, chunkZ: Int, range: Int = ServerFlag.CHUNK_VIEW_DISTANCE) {
+    val chunks = arrayListOf<Chunk>()
+    ChunkUtils.forChunksInRange(chunkX, chunkZ, range) { x, y ->
+        getChunk(x, y)?.let { chunk -> chunks.add(chunk) }
     }
-    chunkLoader = PolarBuilder(this).apply(block).build()
+
+    LightingChunk.relight(this, chunks)
 }
 
 fun InstanceContainer.newSharedInstance(): SharedInstance =
     InstanceManager.createSharedInstance(this)
-
-inline fun GenerationUnit.modify(block: UnitModifier.() -> Unit) = this.modifier().apply(block)
