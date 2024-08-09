@@ -5,6 +5,7 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import net.bladehunt.blade.module.BladeModule
 import net.bladehunt.blade.scope.BladeScope
+import net.bladehunt.kotstom.GlobalEventHandler
 import net.bladehunt.kotstom.SchedulerManager
 import net.bladehunt.kotstom.coroutines.startSuspending
 import net.minestom.server.MinecraftServer
@@ -19,6 +20,8 @@ suspend inline fun blade(
     val scope =
         BladeScope(
             MinecraftServer.init(), InetSocketAddress("127.0.0.1", 25565), EventNode.all("blade"))
+
+    GlobalEventHandler.addChild(scope.eventNode)
 
     scope.block()
 
